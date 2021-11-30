@@ -13,7 +13,7 @@ const Content = styled.main`
 	}
 `
 
-const PageLayout = ({children}) => {
+export const PageLayout = ({children}) => {
 	return (
 		<>
 			<Header />
@@ -24,4 +24,3 @@ const PageLayout = ({children}) => {
 	)
 }
 
-export default PageLayout
