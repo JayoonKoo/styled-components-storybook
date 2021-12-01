@@ -9,7 +9,7 @@ const Button = props => {
 
 const ButtonStyled = styled.button`
 	color: white;
-	background-color: ${p => p.secondary? '#fdd54f' : '#f8049c'};
+	background-color: ${p => p.secondary? p.theme.secondaryColor : p.theme.primaryColor};
 	font-weight: bold;
 	${p => p.large? css`
 		padding: 10px;

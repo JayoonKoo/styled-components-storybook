@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link as ReactRouterDomLink, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
+import { Toggle } from ".";
 
 const Link = ({isActive, children, ...props}) => {
 	return (
@@ -13,6 +14,8 @@ const Link = ({isActive, children, ...props}) => {
 const Header = () => {
 	const {pathname} = useLocation()
 	const [menuOpen, setMenuOpen] = useState(false);
+	const {id, setTheme} = useContext(ThemeContext)
+
   return (
     <HeaderWrapper>
 			<MovileMenuIcon onClick={() => setMenuOpen(m => !m)}>
@@ -23,6 +26,7 @@ const Header = () => {
       <Menu open={menuOpen}>
         <StyledLink isActive={pathname === "/"} to="/">Home</StyledLink>
         <StyledLink isActive={pathname === "/login"} to="/login">Login</StyledLink>
+				<Toggle isActive={id === 'light'} onToggle={setTheme}/>
       </Menu>
     </HeaderWrapper>
   );
@@ -36,8 +40,8 @@ const HeaderWrapper = styled.header`
   padding: 0 16px;
   position: fixed;
   top: 0;
-  background-image: linear-gradient(to right, #f8049c, #fdd54f);
-	border-bottom: 3px solid #fdd54f;
+  background-image: linear-gradient(to right, ${p => p.theme.primaryColor}, ${p => p.theme.secondaryColor});
+	border-bottom: 3px solid ${p => p.theme.secondaryColor};
 `;
 
 const Menu = styled.nav`
@@ -49,8 +53,8 @@ const Menu = styled.nav`
 	left: 0;
 	padding: 8px;
 	box-sizing: border-box;
-	border-bottom: 3px solid #fdd54f;
-	background-color: white;
+	border-bottom: 3px solid ${p=> p.theme.secondaryColor};
+	background-color: ${p => p.theme.bodyBackgroundColor};
 
 	@media(min-width: 768px) {
 		display: flex;
@@ -71,7 +75,7 @@ const StyledLink = styled(Link)`
 	box-sizing: border-box;
 	margin: auto 0;
 	font-weight: ${p => p.isActive? "700" : ""};
-	color: black;
+	color: ${p => p.theme.bodyFontColor};
 `
 
 const MovileMenuIcon = styled.div`
@@ -81,7 +85,7 @@ const MovileMenuIcon = styled.div`
 	padding: 5px;
 	>div {
 		height: 3px;
-		background: black;
+		background: ${p => p.theme.bodyFontColor};
 		margin: 5px 0;
 		width: 100%;
 	}
